@@ -3,7 +3,7 @@ import pickle
 import numpy as np
 from flask_cors import CORS
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../client/build/static', template_folder='../client/build')
 CORS(app)  # Allow frontend requests
 
 # Load the trained model
@@ -15,9 +15,9 @@ if os.path.exists(model_path):
 else:
     raise FileNotFoundError(f"Model file not found at {model_path}")
 
-@app.route("/", methods=["GET"])
-def home():
-    return "Cutoff Prediction API is Running!"
+@app.route('/', methods=["GET"])
+def index():
+    return render_template("index.html")
 
 @app.route("/predict", methods=["POST"])
 def predict():
@@ -31,6 +31,11 @@ def predict():
         return jsonify({"predicted_cutoff": predicted_cutoff})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
+
+# Serve static files directly
+@app.route('/static/<path:path>')
+def serve_static(path):
+    return send_from_directory('../client/build/static', path)
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
