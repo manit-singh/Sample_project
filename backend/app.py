@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template, send_from_directory
 import pickle
 import numpy as np
 from flask_cors import CORS
@@ -36,6 +36,3 @@ def predict():
 @app.route('/static/<path:path>')
 def serve_static(path):
     return send_from_directory('../client/build/static', path)
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
