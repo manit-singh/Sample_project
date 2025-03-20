@@ -20,7 +20,7 @@ function App() {
         throw new Error("Invalid rank. Please enter a positive integer.");
       }
 
-      const response = await fetch("http://localhost:5000/predict", {
+      const response = await fetch("/predict", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -68,3 +68,4 @@ function App() {
 }
 
 export default App;
+
